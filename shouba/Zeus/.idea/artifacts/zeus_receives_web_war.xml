@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="zeus-receives-web:war">
+    <output-path>$PROJECT_DIR$/zeus-receives-web/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>zeus-receives-web</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="zeus-receive-web.war">
+      <element id="artifact" artifact-name="zeus-receives-web:war exploded" />
+    </root>
+  </artifact>
+</component>

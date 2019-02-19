@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeus.dao.CourseParticularsMapper">
+
+  <sql id="CourseParticulars_Column_List">
+    id,caption,small_pic,particulars,mark,course_id
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.zeus.entity.CourseParticulars">
+    select
+    <include refid="CourseParticulars_Column_List" />
+    from course_particulars
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="fandAllId" parameterType="java.lang.Long" resultType="com.zeus.entity.CourseParticulars">
+    select
+    <include refid="CourseParticulars_Column_List" />
+    from course_particulars
+    where course_id = #{id,jdbcType=INTEGER}
+  </select>
+
+</mapper>

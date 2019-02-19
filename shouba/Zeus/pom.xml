@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.zeus</groupId>
+    <artifactId>zeus</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>zeus-web</module>
+        <module>zeus-common</module>
+        <module>zeus-quartz</module>
+        <module>zeus-receives-web</module>
+        <module>zeus-admin-web</module>
+    </modules>
+
+
+
+    <properties>
+        <aspectj.version>1.8.1</aspectj.version>
+        <commons-dbcp.version>1.2.2</commons-dbcp.version>
+        <commons.fileupload.version>1.3.2</commons.fileupload.version>
+        <druid.version>1.0.29</druid.version>
+        <hutool.version>4.3.1</hutool.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <junit.version>4.12</junit.version>
+        <jackson.databind.version>2.8.7</jackson.databind.version>
+        <javax.servlet.api.version>3.1.0</javax.servlet.api.version>
+        <jedis.version>2.9.0</jedis.version>
+        <lombok.version>1.16.12</lombok.version>
+        <logback.classic.version>1.2.3</logback.classic.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <mysql.connector.java.version>8.0.13</mysql.connector.java.version>
+        <mybatis.version>3.4.2</mybatis.version>
+        <mybatis.spring.version>1.3.1</mybatis.spring.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <protostuff.core.version>1.0.12</protostuff.core.version>
+        <protostuff.runtime.version>1.0.12</protostuff.runtime.version>
+        <pagehelper.version>5.1.2</pagehelper.version>
+        <spring.version>4.3.7.RELEASE</spring.version>
+        <spring.data.redis.version>2.0.0.RELEASE</spring.data.redis.version>
+        <zeus.version>1.0-SNAPSHOT</zeus.version>
+        <slf4j.version>1.7.7</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+        <spring.security.version>5.0.1.RELEASE</spring.security.version>
+
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.2</version>
+        </dependency>
+    </dependencies>
+
+</project>

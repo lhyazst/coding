@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeus.dao.UsersMapper">
+  <resultMap id="BaseResultMap" type="com.zeus.entity.Users">
+
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+    <association property="address" column="user_id" javaType="com.zeus.entity.Address">
+      <id column="sid" property="sid" jdbcType="BIGINT" />
+      <result column="user_id" property="userId" jdbcType="BIGINT" />
+      <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
+      <result column="city_id" property="cityId" jdbcType="VARCHAR" />
+      <result column="town_id" property="townId" jdbcType="VARCHAR" />
+      <result column="street" property="street" jdbcType="VARCHAR" />
+      <result column="community" property="community" jdbcType="VARCHAR" />
+      <result column="other_community" property="otherCommunity" jdbcType="VARCHAR" />
+      <result column="contact" property="contact" jdbcType="VARCHAR" />
+      <result column="is_default" property="isDefault" jdbcType="VARCHAR" />
+      <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    </association>
+
+  </resultMap>
+
+
+  <resultMap id="ArticleResultMap" type="com.zeus.entity.Users">
+
+  <id column="uid" jdbcType="BIGINT" property="id" />
+  <result column="real_name" jdbcType="VARCHAR" property="realName" />
+  <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+  <result column="account" jdbcType="VARCHAR" property="account" />
+  <result column="password" jdbcType="VARCHAR" property="password" />
+  <result column="status" jdbcType="INTEGER" property="status" />
+  <result column="role" jdbcType="VARCHAR" property="role" />
+  <result column="gender" jdbcType="VARCHAR" property="gender" />
+  <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+  <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+  <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <collection property="articles" ofType="com.zeus.entity.Article">
+      <id column="aid" jdbcType="BIGINT" property="id" />
+      <result column="small_pic" jdbcType="VARCHAR" property="smallPic" />
+      <result column="user_id" jdbcType="BIGINT" property="userId" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="status" jdbcType="VARCHAR" property="status" />
+      <result column="article_name" jdbcType="VARCHAR" property="articleName" />
+      <result column="article_weight" jdbcType="DECIMAL" property="articleWeight" />
+
+    </collection>
+
+
+  </resultMap>
+
+
+
+  <resultMap id="userAddressMap" type="com.zeus.entity.Users">
+
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+    <association property="address"  javaType="com.zeus.entity.Address">
+      <id column="sid" property="sid" jdbcType="BIGINT" />
+      <result column="user_id" property="userId" jdbcType="BIGINT" />
+      <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
+      <result column="city_id" property="cityId" jdbcType="VARCHAR" />
+      <result column="town_id" property="townId" jdbcType="VARCHAR" />
+      <result column="street" property="street" jdbcType="VARCHAR" />
+      <result column="community" property="community" jdbcType="VARCHAR" />
+      <result column="other_community" property="otherCommunity" jdbcType="VARCHAR" />
+      <result column="contact" property="contact" jdbcType="VARCHAR" />
+      <result column="is_default" property="isDefault" jdbcType="VARCHAR" />
+      <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    </association>
+
+  </resultMap>
+  <select id="selectactivityUser" resultMap="ArticleResultMap">
+    SELECT u.id AS uid, u.real_name, u.nick_name, u.account, u.password, u.status, u.role, u.gender, u.birthday,
+    u.telephone, u.create_time, u.update_time,
+     a.id AS aid, a.small_pic, a.user_id,
+      a.create_time, a.status, a.article_name,
+      a.article_weight
+     FROM users u LEFT JOIN (SELECT *
+      FROM article WHERE article.`user_id` = #{id,jdbcType=INTEGER}) a
+  ON u.id = a.user_id   WHERE u.id  = #{id,jdbcType=INTEGER}
+  </select>
+
+
+
+  <!-- 查询所有 -->
+  <select id="usfandAll" resultMap="BaseResultMap">
+    SELECT
+    u.id, u.real_name, u.nick_name, u.account, u.password, u.status, u.role, u.gender, u.birthday,
+    u.telephone, u.create_time, u.update_time,
+    s.id AS sid , s.user_id, s.province_id, s.city_id, s.town_id, s.street, s.community, s.other_community, s.contact, s.is_default, s.create_date
+    FROM users u, address s WHERE u.id IN (
+    (SELECT user_id FROM activity_user t WHERE activity_product_id =#{id,jdbcType=INTEGER}))
+    AND
+    s.user_id = u.id
+  </select>
+
+
+  <!-- 查询所有 -->
+  <select id="userAddressfandAll" resultMap="userAddressMap">
+SELECT
+
+  u.id, u.real_name, u.nick_name, u.account, u.password, u.status, u.role, u.gender, u.birthday,
+    u.telephone, u.create_time, u.update_time,
+    s.id AS sid , s.user_id, s.province_id, s.city_id, s.town_id, s.street, s.community, s.other_community, s.contact, s.is_default, s.create_date
+
+ FROM users u, address s WHERE u.`id` = s.`user_id`
+
+
+  </select>
+
+
+
+
+  <sql id="Users_Column_List">
+  id, real_name, nick_name, account, password, status, role, gender, birthday,
+    telephone, create_time, update_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.zeus.entity.Users">
+    select
+    <include refid="Users_Column_List" />
+    from users
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultType="com.zeus.entity.Users">
+    select
+    <include refid="Users_Column_List" />
+    from users
+    where nick_name = #{username,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.zeus.entity.Users">
+    insert into users ( real_name, nick_name,
+    account, password, status,
+    role, gender, birthday,
+    telephone, create_time, update_time
+    )
+    values ( #{realName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+    #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+    #{role,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP},
+    #{telephone,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+
+    delete from users
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+
+  <select id="fandAll"  resultType="com.zeus.entity.Users">
+    select
+    <include refid="Users_Column_List" />
+    from users
+  </select>
+
+  <select id="fandOne" parameterType="java.lang.Long" resultMap="userAddressMap" >
+
+SELECT
+u.id, u.real_name, u.nick_name, u.account, u.password, u.status, u.role, u.gender, u.birthday,
+    u.telephone, u.create_time, u.update_time,
+    s.id AS sid , s.user_id, s.province_id, s.city_id, s.town_id, s.street, s.community, s.other_community, s.contact, s.is_default, s.create_date
+ FROM users u, address s WHERE u.`id` = s.`user_id` AND u.id=#{id,jdbcType=BIGINT}
+</select>
+
+<!--更新数据-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.zeus.entity.Users">
+    update user_info
+    <set>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

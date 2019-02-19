@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeus.dao.AddressMapper">
+
+
+  <sql id="Address_Column_List">
+    id,user_id,province_id,city_id,town_id,street,community,other_community,contact,is_default,create_date
+  </sql>
+
+  <select id="fandAll" resultType="com.zeus.entity.Address">
+    select
+    <include refid="Address_Column_List"/>
+    from address GROUP BY community
+  </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.zeus.entity.Address">
+        select
+        <include refid="Address_Column_List" />
+        from address
+        where user_id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+
+    <insert id="insert"  parameterType="com.zeus.entity.Address">
+    insert into address (
+   user_id,
+   province_id,
+    city_id,
+    town_id,
+    street,
+    community,
+    other_community,
+    contact,
+    is_default,
+   create_date)
+    values (
+
+     #{userId,jdbcType=INTEGER},
+     #{provinceId,jdbcType=VARCHAR},
+     #{cityId,jdbcType=VARCHAR},
+     #{townId,jdbcType=VARCHAR},
+     #{street,jdbcType=VARCHAR},
+     #{community,jdbcType=VARCHAR},
+     #{otherCommunity,jdbcType=VARCHAR},
+     #{contact,jdbcType=VARCHAR},
+     #{isDefault,jdbcType=VARCHAR},
+     #{createDate,jdbcType=TIMESTAMP}
+     )
+  </insert>
+
+
+</mapper>

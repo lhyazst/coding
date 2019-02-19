@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>表单</title>
+    <link rel="stylesheet" href="../../resources/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../resources/layuiadmin/style/admin.css" media="all">
+    <style>
+        .layui-form-label {
+            width: 100px;
+        }
+
+        .layui-input-block {
+            margin-left: 130px;
+            min-height: 36px
+        }
+    </style>
+</head>
+<body class="body">
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>更新订单信息</legend>
+</fieldset>
+
+<form class="layui-form layui-from-pane" action="/admin/updateOrder" style="margin-top:20px" method="post">
+    <p><input id="id" name="id" type="hidden">
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="realName" lay-verify="required" id="realName" placeholder="请输入"
+                   autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">单选框</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="男" title="男" id="g1">
+            <input type="radio" name="sex" value="女" title="女" id="g2">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话</label>
+        <div class="layui-input-inline">
+            <input type="text" name="telephone" id="telephone" lay-verify="required" placeholder="请输入"
+                   autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">日期选择</label>
+            <div class="layui-input-block">
+                <input type="text" name="date" id="date1" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">居住地址</label>
+        <div class="layui-input-block">
+            <select name="serverUserId" lay-filter="source" id="serviceList"></select>
+        </div>
+    </div>
+
+    <div class="layui-form-item" style="margin-top:40px">
+        <div class="layui-input-block">
+            <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="demo1" id="demo1">立即更新</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+<script src="../../resources/layuiadmin/layui/layui.js"></script>
+<script>
+
+    layui.config({
+        //静态资源所在路径
+        base: '../../resources/layuiadmin/'
+    }).extend({
+        //主入口模块
+        index: 'lib/index'
+    }).use(['index', 'table', 'laypage', 'form', 'layer', 'jquery', 'laydate'], function () {
+
+        var form = layui.form
+            , layer = layui.layer
+            , $ = layui.jquery,
+            table = layui.table,
+            laypage = layui.laypage;
+
+        showOrder();
+
+        layui.laydate.render({
+            elem: '#date1'
+        });
+
+    });
+
+    //下拉框
+    function selectUi() {
+        var roleId = 14;
+        layui.$.ajax({
+            url: "/admin/selectRoleList?roleId=" + roleId,
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                var list = result['data'];    //返回的数据
+                var role = document.getElementById("uiList");        //add_role_name给select定义的id
+                for (var i = 0; i < list.length; i++) {
+                    var option = document.createElement("option");    // 创建添加option属性
+                    option.setAttribute("value", list[i].id);                  // 给option的value添加值
+                    option.innerText = list[i].nickName;             // 打印option对应的纯文本 （超级管理员、管理员）
+                    role.appendChild(option);                          // 给select 添加option子标签
+                }
+
+                layui.form.render("select");                                // 刷性select，显示出数据
+            }
+        });
+    }
+
+    function showOrder() {
+        var id = layui.$("#id").val();
+
+        layui.$.ajax({
+            url:"/users/page/fandOne/" + id,
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+
+                var date = result.data;
+                layui.$("#realName").val(date.realName);
+                layui.$("#telephone").val(date.telephone);
+                if ("男" == date.gender) {
+                    layui.$("#g1").prop("checked", true);
+                } else {
+                    layui.$("#g2").prop("checked", true);
+                }
+                layui.$("#date1").val(date.birthdays);
+                // layui.$("#serviceList").val(date.account);
+                layui.form.render(); //更新全部
+            }
+        });
+    }
+</script>
+</body>
+</html>

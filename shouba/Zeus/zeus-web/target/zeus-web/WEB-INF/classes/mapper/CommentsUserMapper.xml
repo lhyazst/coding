@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeus.dao.CommentsUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.zeus.entity.CommentsUser">
+
+        <id column="cid" jdbcType="BIGINT" property="id"/>
+        <result column="small_pic" jdbcType="VARCHAR" property="smallPic"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="comments" jdbcType="VARCHAR" property="comments"/>
+        <result column="activity_product_id" jdbcType="BIGINT" property="activityProductId"/>
+        <association property="users" javaType="com.zeus.entity.Users">
+            <id column="uid" jdbcType="BIGINT" property="id"/>
+            <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+            <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+            <result column="account" jdbcType="VARCHAR" property="account"/>
+            <result column="password" jdbcType="VARCHAR" property="password"/>
+            <result column="status" jdbcType="INTEGER" property="status"/>
+            <result column="role" jdbcType="VARCHAR" property="role"/>
+            <result column="gender" jdbcType="VARCHAR" property="gender"/>
+            <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+            <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        </association>
+
+        <collection property="bags" ofType="com.zeus.entity.Bags">
+            <id column="bid" jdbcType="BIGINT" property="id"/>
+            <result column="user_id" jdbcType="BIGINT" property="userId"/>
+            <result column="serial_number" jdbcType="BIGINT" property="serialNumber"/>
+            <result column="recycle_bin_serial_number" jdbcType="BIGINT" property="recycleBinSerialNumber"/>
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+            <result column="status" jdbcType="VARCHAR" property="status"/>
+            <result column="bagsType" jdbcType="VARCHAR" property="bagstype"/>
+            <result column="recycle_bin_id" jdbcType="BIGINT" property="recycleBinId"/>
+            <result column="orc_id" jdbcType="BIGINT" property="orcId"/>
+        </collection>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+
+    id, small_pic, user_id, create_time, status, comments, activity_product_id
+    </sql>
+
+
+    <!--<select id="selectCUBfanAll" parameterType="java.lang.Long" resultMap="BaseResultMap">-->
+     <!--SELECT-->
+    <!--u.id as uid, u.real_name, u.nick_name, u.account, u.password, u.status, u.role, u.gender, u.birthday,-->
+    <!--u.telephone, u.create_time, u.update_time,-->
+    <!--c.id as cid, c.small_pic, c.user_id, c.create_time, c.STATUS, c.comments, c.activity_product_id,-->
+    <!--b.id as bid, b.user_id, b.serial_number, b.recycle_bin_serial_number, b.create_time, b.update_time, b.STATUS,-->
+    <!--b.bagsType, b.recycle_bin_id,b.orc_id-->
+    <!--FROM users u LEFT JOIN comments_user c ON u.id = c.`user_id`-->
+    <!--LEFT JOIN-->
+   <!--(SELECT-->
+    <!--id, user_id, serial_number, recycle_bin_serial_number, create_time, update_time, STATUS,-->
+    <!--bagsType, recycle_bin_id,orc_id-->
+    <!--FROM bags WHERE bags.`user_id` = #{userid,jdbcType=INTEGER}  AND bags.`bagsType`="2") b-->
+    <!--ON b.user_id = u.id  WHERE c.`activity_product_id` = #{activityProductId,jdbcType=INTEGER}-->
+    <!--AND u.id = #{userid,jdbcType=INTEGER}-->
+    <!--</select>-->
+
+
+
+
+    <select id="fandAll"  resultType="com.zeus.entity.CommentsUser">
+        select
+        <include refid="Base_Column_List"/>
+        from comments_user order by create_time desc;
+
+    </select>
+    <select id="fanAllActivityProductId" parameterType="java.lang.Long" resultType="com.zeus.entity.CommentsUser">
+        select
+        <include refid="Base_Column_List"/>
+        from comments_user  where activity_product_id = #{activityProductId,jdbcType=INTEGER} order by create_time desc;
+
+    </select>
+    <select id="selectcomment" parameterType="java.lang.Long" resultType="com.zeus.entity.CommentsUser">
+        select
+        <include refid="Base_Column_List"/>
+        from comments_user
+        where user_id = #{userid,jdbcType=INTEGER} and activity_product_id = #{activityProductId,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insert" parameterType="com.zeus.entity.CommentsUser">
+
+    insert into comments_user ( small_pic, user_id,
+    create_time, status, comments,
+    activity_product_id)
+    values ( #{smallPic,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT},
+    #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{comments,jdbcType=VARCHAR},
+    #{activityProductId,jdbcType=BIGINT})
+  </insert>
+
+
+</mapper>

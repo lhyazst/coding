@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeus.dao.GoodsMapper">
+
+    <sql id="Goods_Column_List">
+    id,audit_status,caption,small_pic,particulars,goods_particulars,price,is_marketable,is_delete,seller_id,goods_type
+    ,update_time,create_time
+  </sql>
+
+    <select id="fandAll" resultType="com.zeus.entity.Goods">
+        select
+        <include refid="Goods_Column_List"/>
+        from goods where audit_status ="1" order by update_time desc;
+
+    </select>
+    <select id="fandAllDonate" resultType="com.zeus.entity.Goods">
+        select
+        <include refid="Goods_Column_List"/>
+        from goods where audit_status ="1" and goods_type = "1" order by update_time desc;
+
+    </select>
+    <select id="fandAllConvert" resultType="com.zeus.entity.Goods">
+        select
+        <include refid="Goods_Column_List"/>
+        from goods where audit_status ="1" and goods_type in("2","3") order by update_time desc;
+
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.zeus.entity.Goods">
+        select
+        <include refid="Goods_Column_List" />
+        from goods
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+</mapper>

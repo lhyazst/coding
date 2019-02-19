@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeus.dao.ActivityProductParticularsMapper">
+
+
+  <sql id="ActivityProductParticulars_Column_List">
+    id,title,small_pic,seller_id,create_time,introduction,coupon_id,activity_product_id
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+          resultType="com.zeus.entity.ActivityProductParticulars">
+    select
+    <include refid="ActivityProductParticulars_Column_List"/>
+    from activity_product_particulars
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectActivityList" parameterType="java.lang.Long"
+          resultType="com.zeus.entity.ActivityProductParticulars">
+    select
+    <include refid="ActivityProductParticulars_Column_List"/>
+    from activity_product_particulars
+    where activity_product_id = #{activityProductId,jdbcType=INTEGER}
+  </select>
+
+</mapper>

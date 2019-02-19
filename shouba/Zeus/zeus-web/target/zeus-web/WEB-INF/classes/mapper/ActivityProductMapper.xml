@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeus.dao.ActivityProductMapper">
+
+  <sql id="ActivityProduct_Column_List">
+    id,course_id,title,small_pic,price,cost_price,seller_id,
+    create_time,start_time,end_time,num,stock_count,introduction,check_time,status,activity_product_particulars_id,address_id
+  </sql>
+
+  <select id="fandAll" resultType="com.zeus.entity.ActivityProduct">
+    select
+    <include refid="ActivityProduct_Column_List"/>
+    from activity_product where status="1" order by create_time desc
+
+  </select>
+
+
+</mapper>
